@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Edit Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/cotton_background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        
+        input[readonly] {
+            background-color: #f0f0f0;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #216a94;
+        }
+        
+        .back-btn {
+            margin-top: 15px;
+            background-color: #27ae60;
+        }
+        
+        .back-btn:hover {
+            background-color: #1f8c4c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Edit Invoice</h2>
+        <form method="POST">
+            <label for="date">Date</label>
+            <input type="date" name="date" value="{{ invoice.date }}" required>
+
+            <label for="party_name">Party Name</label>
+            <input type="text" name="party_name" value="{{ invoice.party_name }}" required>
+
+            <label for="items">Items</label>
+            <textarea name="items" rows="3" placeholder="Item1: qty, Item2: qty" required>{{ invoice.items }}</textarea>
+
+            <label for="quantity">Quantity (kg)</label>
+            <input type="number" name="quantity" value="{{ invoice.quantity }}" min="0" step="any" required>
+
+            <label for="rate">Rate (per kg)</label>
+            <input type="number" name="rate" value="{{ invoice.rate }}" min="0" step="any" required>
+
+            <label for="amount">Amount</label>
+            <input type="number" name="amount" value="{{ invoice.amount }}" min="0" step="any" required>
+
+            <label for="gst_percent">GST (%)</label>
+            <input type="number" name="gst_percent" value="{{ invoice.gst_percent }}" min="0" step="any" required>
+
+            <label for="total_amount">Total Amount</label>
+            <input type="number" name="total_amount" value="{{ invoice.total_amount }}" min="0" step="any" required>
+
+            <label for="payment_mode">Payment Mode</label>
+            <input type="text" name="payment_mode" value="{{ invoice.payment_mode }}" required>
+
+            <label for="status">Status</label>
+            <input type="text" name="status" value="{{ invoice.status }}" required>
+
+            <button type="submit">Update Invoice</button>
+        </form>
+
+        <form action="{{ url_for('view_invoices') }}">
+            <button type="submit" class="back-btn">Back to Invoices</button>
+        </form>
+    </div>
+</body>
+
+</html>

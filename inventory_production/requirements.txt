@@ -1,0 +1,6 @@
+Flask
+gunicorn
+pandas
+xhtml2pdf
+openpyxl
+

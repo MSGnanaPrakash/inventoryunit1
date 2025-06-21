@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Edit Inventory Item</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('/static/cotton_background.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+        
+        nav {
+            background-color: #2980b9;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: white;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+        
+        nav a:hover {
+            background-color: #1c5980;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 60px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            width: 100%;
+            background-color: #2980b9;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #1c5980;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('add_inventory') }}">Add Inventory</a>
+        <a href="{{ url_for('view_inventory') }}">View Inventory</a>
+        <a href="{{ url_for('add_batch') }}">Add Batch</a>
+        <a href="{{ url_for('view_batches') }}">View Batches</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <div class="container">
+        <h2>Edit Inventory Item</h2>
+        <form method="POST">
+            <label for="item_name">Raw Material Name</label>
+            <input id="item_name" name="item_name" type="text" value="{{ item['item_name'] }}" required />
+
+            <label for="quantity">Quantity</label>
+            <input id="quantity" name="quantity" type="number" min="0" value="{{ item['quantity'] }}" required />
+
+            <label for="threshold">Minimum Quantity (Threshold)</label>
+            <input id="threshold" name="threshold" type="number" min="0" value="{{ item['threshold'] }}" required />
+
+            <label for="unit">Unit (kg/ltr/g)</label>
+            <input id="unit" name="unit" type="text" value="{{ item['unit'] }}" required />
+
+            <label for="supplier_name">Supplier Name (optional)</label>
+            <input id="supplier_name" name="supplier_name" type="text" value="{{ item['supplier_name'] or '' }}" />
+
+            <label for="purchase_date">Purchase Date (optional)</label>
+            <input id="purchase_date" name="purchase_date" type="date" value="{{ item['purchase_date'] or '' }}" />
+
+            <button type="submit">Update Item</button>
+        </form>
+    </div>
+</body>
+
+</html>

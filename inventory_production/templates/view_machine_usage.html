@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Machine Usage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/image/cotton_background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+        
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .edit {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .back-btn {
+            margin-top: 20px;
+            background-color: #27ae60;
+            color: white;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .back-btn:hover {
+            background-color: #1f8c4c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Machine Usage Records</h2>
+
+        <!-- Add Usage button here -->
+        <form action="{{ url_for('add_machine_usage') }}">
+            <button class="back-btn" type="submit" style="margin-bottom: 20px;">Add Usage</button>
+        </form>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Order ID</th>
+                <th>Machine Name</th>
+                <th>Color</th>
+                <th>Quantity (kg)</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+            {% for usage in usages %}
+            <tr>
+                <td>{{ usage.id }}</td>
+                <td>{{ usage.order_id }}</td>
+                <td>{{ usage.machine_name }}</td>
+                <td>{{ usage.color }}</td>
+                <td>{{ usage.quantity }}</td>
+                <td>{{ usage.date }}</td>
+                <td>
+                    <a href="{{ url_for('edit_machine_usage', id=usage.id) }}" class="btn edit">Edit</a>
+                    <a href="{{ url_for('delete_machine_usage', id=usage.id) }}" class="btn delete" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <form action="{{ url_for('dashboard') }}">
+            <button class="back-btn" type="submit">Back to Home</button>
+        </form>
+    </div>
+</body>
+
+</html>

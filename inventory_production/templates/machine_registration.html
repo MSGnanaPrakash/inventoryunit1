@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Machine Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/cotton_background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #216a94;
+        }
+        
+        .back-btn {
+            margin-top: 15px;
+            background-color: #27ae60;
+        }
+        
+        .back-btn:hover {
+            background-color: #1f8c4c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Machine Registration</h2>
+        <form method="POST">
+            <label for="machine_name">Machine Name</label>
+            <input type="text" name="machine_name" required>
+
+            <label for="capacity">Capacity (kg)</label>
+            <input type="number" name="capacity" min="0" step="any" required>
+
+            <label for="status">Machine Status</label>
+            <select name="status" required>
+                <option value="">Select Status</option>
+                <option value="Available">Available</option>
+                <option value="In Use">In Use</option>
+                <option value="Under Maintenance">Under Maintenance</option>
+            </select>
+
+            <button type="submit">Register Machine</button>
+        </form>
+
+        <form action="{{ url_for('dashboard') }}">
+            <button type="submit" class="back-btn">Back to Home</button>
+        </form>
+    </div>
+</body>
+
+</html>

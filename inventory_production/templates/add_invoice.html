@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Add Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/cotton_background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        
+        input[readonly] {
+            background-color: #f0f0f0;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #216a94;
+        }
+        
+        .back-btn {
+            margin-top: 15px;
+            background-color: #27ae60;
+        }
+        
+        .back-btn:hover {
+            background-color: #1f8c4c;
+        }
+    </style>
+
+    <script>
+        function calculateAmount() {
+            const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+            const rate = parseFloat(document.getElementById('rate').value) || 0;
+            const gstPercent = parseFloat(document.getElementById('gst_percent').value) || 0;
+
+            const amount = quantity * rate;
+            const gstAmount = (amount * gstPercent) / 100;
+            const totalAmount = amount + gstAmount;
+
+            document.getElementById('amount').value = amount.toFixed(2);
+            document.getElementById('total_amount').value = totalAmount.toFixed(2);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Add Invoice</h2>
+        <form method="POST">
+
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="party_name">Party Name</label>
+            <input type="text" id="party_name" name="party_name" required>
+
+            <label for="items">Items</label>
+            <input type="text" id="items" name="items" placeholder="e.g., Yarn Red - 100kg" required>
+
+            <label for="quantity">Quantity (kg)</label>
+            <input type="number" id="quantity" name="quantity" min="0" step="any" required oninput="calculateAmount()">
+
+            <label for="rate">Rate (per kg)</label>
+            <input type="number" id="rate" name="rate" min="0" step="any" required oninput="calculateAmount()">
+
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" name="amount" readonly>
+
+            <label for="gst_percent">GST (%)</label>
+            <input type="number" id="gst_percent" name="gst_percent" min="0" step="any" value="5" required oninput="calculateAmount()">
+
+            <label for="total_amount">Total Amount (with GST)</label>
+            <input type="number" id="total_amount" name="total_amount" readonly>
+
+            <label for="payment_mode">Payment Mode</label>
+            <select id="payment_mode" name="payment_mode" required>
+                <option value="">Select Payment Mode</option>
+                <option value="Cash">Cash</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Credit">Credit</option>
+            </select>
+
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+                <option value="">Select Status</option>
+                <option value="Paid">Paid</option>
+                <option value="Unpaid">Unpaid</option>
+            </select>
+
+            <button type="submit">Submit Invoice</button>
+        </form>
+
+        <form action="{{ url_for('dashboard') }}">
+            <button type="submit" class="back-btn">Back to Home</button>
+        </form>
+    </div>
+</body>
+
+</html>

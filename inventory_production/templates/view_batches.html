@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>View Batches</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 60px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        a.button {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 15px 0;
+            background-color: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        
+        a.button:hover {
+            background-color: #1f8c4c;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: white;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+        
+        .back-btn:hover {
+            background-color: #216a94;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Batch List</h2>
+
+        <a href="{{ url_for('dashboard') }}" class="back-btn">Back to Home</a>
+        <a href="{{ url_for('add_batch') }}" class="button">Add New Batch</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Batch Name</th>
+                    <th>Date</th>
+                    <th>Raw Material</th>
+                    <th>Quantity Used</th>
+                    <th>Product</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for batch in batches %}
+                <tr>
+                    <td>{{ batch.batch_name }}</td>
+                    <td>{{ batch.date }}</td>
+                    <td>{{ batch.raw_material }}</td>
+                    <td>{{ batch.quantity_used }}</td>
+                    <td>{{ batch.product }}</td>
+                    <td>{{ batch.status }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_batch', id=batch.id) }}">Edit</a> |
+                        <a href="{{ url_for('delete_batch', id=batch.id) }}" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" style="text-align:center;">No batches found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Yarns Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .date-label {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th,
+        td {
+            border: 1px solid #666;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Yarns Report</h1>
+    {% if selected_date %}
+    <div class="date-label">Filtered by Date: {{ selected_date }}</div>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Party Name</th>
+                <th>Yarn Type</th>
+                <th>Count</th>
+                <th>Quantity</th>
+                <th>Mill Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for yarn in yarns %}
+            <tr>
+                <td>{{ yarn['id'] }}</td>
+                <td>{{ yarn['date'] }}</td>
+                <td>{{ yarn['party_name'] }}</td>
+                <td>{{ yarn['yarn_type'] }}</td>
+                <td>{{ yarn['count'] }}</td>
+                <td>{{ yarn['quantity'] }}</td>
+                <td>{{ yarn['mill_name'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

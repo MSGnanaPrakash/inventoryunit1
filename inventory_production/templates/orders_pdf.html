@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Order Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .date-label {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+        
+        th,
+        td {
+            border: 1px solid #666;
+            padding: 6px;
+            text-align: left;
+            vertical-align: top;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+        
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+        /* Reduce all columns */
+        
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 8%;
+        }
+        /* Date */
+        
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 10%;
+        }
+        /* Party Name */
+        
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 10%;
+        }
+        /* Yarn Type */
+        
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 7%;
+        }
+        /* Count */
+        
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 7%;
+        }
+        /* Qty Given */
+        
+        th:nth-child(6),
+        td:nth-child(6) {
+            width: 7%;
+        }
+        /* Qty Taken */
+        
+        th:nth-child(7),
+        td:nth-child(7) {
+            width: 7%;
+        }
+        /* Balance */
+        
+        th:nth-child(8),
+        td:nth-child(8) {
+            width: 7%;
+        }
+        /* Dye Wt */
+        /* Colours column gets the rest of the space */
+        
+        th:nth-child(9),
+        td:nth-child(9) {
+            width: 37%;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Order Report</h1>
+    {% if selected_date %}
+    <div class="date-label">Filtered by Date: {{ selected_date }}</div>
+    {% elif start_date and end_date %}
+    <div class="date-label">Filtered by Date: {{ start_date }} to {{ end_date }}</div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Party Name</th>
+                <th>Yarn Type</th>
+                <th>Count</th>
+                <th>Qty Given (kg)</th>
+                <th>Qty Taken (kg)</th>
+                <th>Balance (kg)</th>
+                <th>Dye Wt. (kg)</th>
+                <th>Colours</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order['date'][:5] }}<br>{{ order['date'][5:] }}</td>
+                <td>{{ order['party_name'] }}</td>
+                <td>{{ order['yarn_type'] }}</td>
+                <td>{{ order['count'] }}</td>
+                <td>{{ order['qty_given'] }}</td>
+                <td>{{ order['qty_taken'] }}</td>
+                <td>{{ order['balance'] }}</td>
+                <td>{{ order['dye_wt'] }}</td>
+                <td>
+                    {{ order['colours'].replace(',', '<br>')|safe }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Batch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/cotton_background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 60px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        
+        button {
+            margin-top: 25px;
+            padding: 12px;
+            width: 100%;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #1f8c4c;
+        }
+        
+        .back-btn {
+            margin-top: 15px;
+            background-color: #2980b9;
+        }
+        
+        .back-btn:hover {
+            background-color: #216a94;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Edit Batch</h2>
+        <form method="POST">
+            <label for="batch_name">Batch Name</label>
+            <input type="text" name="batch_name" value="{{ batch.batch_name }}" required>
+
+            <label for="date">Date</label>
+            <input type="date" name="date" value="{{ batch.date }}" required>
+
+            <label for="raw_material">Raw Material Used</label>
+            <select name="raw_material" required>
+                {% for material in materials %}
+                    <option value="{{ material }}" {% if material == batch.raw_material %}selected{% endif %}>{{ material }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="quantity_used">Quantity Used</label>
+            <input type="number" name="quantity_used" value="{{ batch.quantity_used }}" required>
+
+            <label for="product">Final Product</label>
+            <input type="text" name="product" value="{{ batch.product }}" required>
+
+            <label for="status">Status</label>
+            <select name="status" required>
+                <option value="In Progress" {% if batch.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                <option value="Completed" {% if batch.status == 'Completed' %}selected{% endif %}>Completed</option>
+                <option value="Pending" {% if batch.status == 'Pending' %}selected{% endif %}>Pending</option>
+            </select>
+
+            <button type="submit">Update Batch</button>
+        </form>
+
+        <form action="{{ url_for('dashboard') }}">
+            <button type="submit" class="back-btn">Back to Home</button>
+        </form>
+    </div>
+</body>
+
+</html>

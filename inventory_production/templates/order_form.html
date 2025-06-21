@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/cotton_background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        
+        input[readonly] {
+            background-color: #f0f0f0;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #216a94;
+        }
+        
+        .back-btn {
+            margin-top: 15px;
+            background-color: #27ae60;
+        }
+        
+        .back-btn:hover {
+            background-color: #1f8c4c;
+        }
+    </style>
+    <script>
+        function calculateBalance() {
+            const qtyGiven = parseFloat(document.getElementById('quantity_given').value) || 0;
+            const qtyTaken = parseFloat(document.getElementById('quantity_taken').value) || 0;
+            const balance = qtyGiven - qtyTaken;
+            document.getElementById('balance').value = balance >= 0 ? balance.toFixed(2) : '';
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Order Form</h2>
+        <form method="POST">
+            <label for="date">Date</label>
+            <input type="date" name="date" required>
+
+            <label for="party_name">Party Name</label>
+            <input type="text" name="party_name" required>
+
+            <label for="yarn_type">Yarn Type</label>
+            <input type="text" name="yarn_type" required>
+
+            <label for="count">Count</label>
+            <input type="text" name="count" required>
+
+            <label for="quantity_given">Qty Given (kg)</label>
+            <input type="number" id="quantity_given" name="qty_given" min="0" step="any" required oninput="calculateBalance()">
+
+            <label for="quantity_taken">Qty Taken (kg)</label>
+            <input type="number" id="quantity_taken" name="qty_taken" min="0" step="any" required oninput="calculateBalance()">
+
+            <label for="balance">Balance (kg)</label>
+            <input type="number" id="balance" name="balance" readonly>
+
+            <label for="dye_wt">Dye Wt. (kg)</label>
+            <input type="number" name="dye_wt" min="0" step="any" required>
+
+            <label for="colours">Colours</label>
+            <input type="text" name="colours" placeholder="e.g., Black:500, White:200" required>
+
+            <button type="submit">Submit Order</button>
+        </form>
+
+        <form action="{{ url_for('dashboard') }}">
+            <button type="submit" class="back-btn">Back to Home</button>
+        </form>
+    </div>
+</body>
+
+</html>

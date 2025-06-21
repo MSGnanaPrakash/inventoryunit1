@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Batches Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .date-label {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th,
+        td {
+            border: 1px solid #666;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Batches Report</h1>
+    {% if selected_date %}
+    <div class="date-label">Filtered by Date: {{ selected_date }}</div>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Batch Name</th>
+                <th>Date</th>
+                <th>Raw Material</th>
+                <th>Quantity Used</th>
+                <th>Product</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for batch in batches %}
+            <tr>
+                <td>{{ batch['id'] }}</td>
+                <td>{{ batch['batch_name'] }}</td>
+                <td>{{ batch['date'] }}</td>
+                <td>{{ batch['raw_material'] }}</td>
+                <td>{{ batch['quantity_used'] }}</td>
+                <td>{{ batch['product'] }}</td>
+                <td>{{ batch['status'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

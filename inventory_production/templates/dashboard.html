@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard - Textile Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/cotton_background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .stat-box {
+            margin: 20px 0;
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .nav {
+            background-color: #2980b9;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .nav a {
+            color: white;
+            margin: 0 12px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        
+        .welcome-message {
+            font-size: 22px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        .export-buttons a {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 5px;
+        }
+        
+        .pdf-btn {
+            background: #2980b9;
+        }
+        
+        .excel-btn {
+            background: #27ae60;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('view_inventory') }}">View Inventory</a>
+        <a href="{{ url_for('view_batches') }}">View Batches</a>
+        <a href="{{ url_for('view_yarn') }}">Yarn Registration</a>
+        <a href="{{ url_for('view_orders') }}">Order Form</a>
+        <a href="{{ url_for('view_machine_registration') }}">View Machines</a>
+        <a href="{{ url_for('view_machine_usage') }}">View Machine Usage</a>
+        <a href="{{ url_for('view_invoices') }}" class="btn btn-primary">View Invoices</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <div class="container">
+        <div class="welcome-message">Welcome, {{ session['user'] }}</div>
+
+        <!-- Date range form -->
+        <form method="post" action="{{ url_for('dashboard') }}" style="margin-bottom: 20px;">
+            <label for="startDate" style="font-size:18px; color:#2c3e50;">Start Date:</label>
+            <input type="date" id="startDate" name="start_date" value="{{ start_date }}" required style="padding:6px; font-size:16px; margin-left:10px; border-radius:4px; border:1px solid #ccc;">
+
+            <label for="endDate" style="font-size:18px; color:#2c3e50; margin-left:20px;">End Date:</label>
+            <input type="date" id="endDate" name="end_date" value="{{ end_date }}" required style="padding:6px; font-size:16px; margin-left:10px; border-radius:4px; border:1px solid #ccc;">
+
+            <button type="submit" style="padding:6px 12px; font-size:16px; margin-left:10px; background:#2980b9; color:#fff; border:none; border-radius:4px; cursor:pointer;">Show</button>
+        </form>
+
+        <!-- Stats display -->
+        <div class="stat-box">Total Inventory Items: <strong>{{ total_inventory }}</strong></div>
+        <div class="stat-box">Total Batches: <strong>{{ total_batches }}</strong></div>
+        <div class="stat-box" style="color:red;">Low Stock Items: <strong>{{ low_stock }}</strong></div>
+        <div class="stat-box">Yarn Registrations ({{ start_date }} to {{ end_date }}): <strong>{{ yarn_today }}</strong></div>
+        <div class="stat-box">Orders ({{ start_date }} to {{ end_date }}): <strong>{{ orders_today }}</strong></div>
+        <div class="stat-box">Machine Usage ({{ start_date }} to {{ end_date }}): <strong>{{ machine_usage_today }}</strong></div>
+        <div class="stat-box" style="color: #16a085;">Total Invoices: <strong>{{ total_invoices }}</strong></div>
+        <div class="stat-box" style="color: #16a085;">Invoices ({{ start_date }} to {{ end_date }}): <strong>{{ invoices_today }}</strong></div>
+        <div class="stat-box" style="color: #16a085;">Total Billing Amount (₹): <strong>{{ "{:,.2f}".format(total_billing_amount) }}</strong></div>
+
+        <div class="export-buttons">
+            <!-- Inventory -->
+            <a href="{{ url_for('export_inventory_pdf') }}?start={{ start_date }}&end={{ end_date }}" class="pdf-btn">Export Inventory PDF</a>
+            <a href="{{ url_for('export_inventory_excel') }}?start={{ start_date }}&end={{ end_date }}" class="excel-btn">Export Inventory Excel</a><br>
+
+            <!-- Batches -->
+            <a href="{{ url_for('export_batches_pdf') }}?start={{ start_date }}&end={{ end_date }}" class="pdf-btn">Export Batches PDF</a>
+            <a href="{{ url_for('export_batches_excel') }}?start={{ start_date }}&end={{ end_date }}" class="excel-btn">Export Batches Excel</a><br>
+
+            <!-- Yarns -->
+            <a href="{{ url_for('export_yarns_pdf') }}?start={{ start_date }}&end={{ end_date }}" class="pdf-btn">Export Yarns PDF</a>
+            <a href="{{ url_for('export_yarns_excel') }}?start={{ start_date }}&end={{ end_date }}" class="excel-btn">Export Yarns Excel</a><br>
+
+            <!-- Orders -->
+            <a href="{{ url_for('export_orders_pdf') }}?start={{ start_date }}&end={{ end_date }}" class="pdf-btn">Export Orders PDF</a>
+            <a href="{{ url_for('export_orders_excel') }}?start={{ start_date }}&end={{ end_date }}" class="excel-btn">Export Orders Excel</a><br>
+
+            <!-- Machine Usage -->
+            <a href="{{ url_for('export_machine_usage_pdf') }}?start={{ start_date }}&end={{ end_date }}" class="pdf-btn">Export Machine Usage PDF</a>
+            <a href="{{ url_for('export_machine_usage_excel') }}?start={{ start_date }}&end={{ end_date }}" class="excel-btn">Export Machine Usage Excel</a>
+            <br><br>
+            <!-- Add extra breaks here -->
+
+            <!-- Billing / Invoice export buttons (on their own line) -->
+            <a href="{{ url_for('export_invoices_pdf') }}?start={{ start_date }}&end={{ end_date }}" class="pdf-btn">Export Invoices PDF</a>
+            <a href="{{ url_for('export_invoices_excel') }}?start={{ start_date }}&end={{ end_date }}" class="excel-btn">Export Invoices Excel</a><br>
+        </div>
+
+    </div>
+    </div>
+</body>
+
+</html>

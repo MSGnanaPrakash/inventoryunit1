@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .date-label {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+        
+        th,
+        td {
+            border: 1px solid #666;
+            padding: 6px;
+            text-align: left;
+            vertical-align: top;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+        
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+        /* Column widths */
+        
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 8%;
+        }
+        /* Date */
+        
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 15%;
+        }
+        /* Party Name */
+        
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 22%;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        /* Items */
+        
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 7%;
+            text-align: right;
+        }
+        /* Quantity */
+        
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 8%;
+            text-align: right;
+        }
+        /* Rate */
+        
+        th:nth-child(6),
+        td:nth-child(6) {
+            width: 8%;
+            text-align: right;
+        }
+        /* Amount */
+        
+        th:nth-child(7),
+        td:nth-child(7) {
+            width: 8%;
+            text-align: right;
+        }
+        /* GST */
+        
+        th:nth-child(8),
+        td:nth-child(8) {
+            width: 8%;
+            text-align: right;
+        }
+        /* Total Amount */
+        
+        th:nth-child(9),
+        td:nth-child(9) {
+            width: 10%;
+            text-align: right;
+        }
+        /* Payment Mode */
+        
+        th:nth-child(10),
+        td:nth-child(10) {
+            width: 10%;
+        }
+        /* Status */
+    </style>
+</head>
+
+<body>
+    <h1>Invoice Report</h1>
+    {% if selected_date %}
+    <div class="date-label">Filtered by Date: {{ selected_date }}</div>
+    {% elif start_date and end_date %}
+    <div class="date-label">Filtered by Date: {{ start_date }} to {{ end_date }}</div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Party Name</th>
+                <th>Items</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>GST (%)</th>
+                <th>Total Amount</th>
+                <th>Payment Mode</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+            <tr>
+                <td>{{ invoice['date'] }}</td>
+                <td>{{ invoice['party_name'] }}</td>
+                <td>{{ invoice['items'].replace(',', '<br>')|safe }}</td>
+                <td style="text-align:right;">{{ invoice['quantity'] }}</td>
+                <td style="text-align:right;">{{ invoice['rate'] }}</td>
+                <td style="text-align:right;">{{ invoice['amount'] }}</td>
+                <td style="text-align:right;">{{ invoice['gst_percent'] }}</td>
+                <td style="text-align:right;">{{ invoice['total_amount'] }}</td>
+                <td>{{ invoice['payment_mode'] }}</td>
+                <td>{{ invoice['status'] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="10" style="text-align:center;">No invoices found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
